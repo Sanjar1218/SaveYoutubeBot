@@ -12,6 +12,7 @@ from telegram import (
     InlineKeyboardMarkup,
 )
 from pytube import YouTube, Playlist
+import os
 
 TOKEN = '5128554563:AAGXrWFZ8YKt0lSbFpr6X1xo4P14X-L5NjE'
 
@@ -45,12 +46,23 @@ def url_inline_button(update: Update, context: CallbackContext):
     query = update.callback_query
     text = query.message.text
     yt = YouTube(text).streams.get_by_resolution(query.data)
-    yt.download()
-    query.answer('done')
+    yt.download('videos', 'video.mp4')
+
+    bot = context.bot
+    chat_id = update.callback_query.message.chat.id
+
+    #opening video
+    f = open('videos/video.mp4', 'rb')
+    #sending video to user
+    bot.send_video(chat_id, f)
+    f.close()
+    #deleting video from server
+    os.remove('videos/video.mp4')
 
 
 # handlers here
-updater = Updater(TOKEN)
+updater = Updater(TOKEN, base_url='http://127.0.0.1:8081/bot')
+# updater.bot.log_out()
 dp = updater.dispatcher
 
 dp.add_handler(CommandHandler('start', start))
