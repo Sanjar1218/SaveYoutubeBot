@@ -20,7 +20,12 @@ TOKEN = env.get("BOT_TOKEN")
 def start(update: Update, context: CallbackContext):
     """Sends description about bot
     """
-    update.message.reply_text('hi')
+    update.message.reply_text('''<b>Hi this bot helps you for downloading videos from <a href="https://www.youtube.com">YouTue</a>
+
+How to use: /help
+
+Made by @codeschooluz
+    </b>''', parse_mode="HTML")
 
 def url(update: Update, context: CallbackContext):
     """ Gets url and sends message about url
@@ -60,12 +65,24 @@ def url_inline_button(update: Update, context: CallbackContext):
     #deleting video from server
     os.remove('videos/video.mp4')
 
+def help(update: Update, context: CallbackContext):
+    update.message.reply_text('''
+<b>Send me any YouTube video link,
+Choose video quality
+And enjoy it 🥳.</b>
 
-# handlers here
-updater = Updater(TOKEN, base_url='http://127.0.0.1:8081/bot')
-# updater.bot.log_out()
+<i>Connect with us: @SANJARBEK1718</i>
+    ''', parse_mode="HTML")
+
+# # handlers here
+# updater = Updater(TOKEN, base_url='http://127.0.0.1:8081/bot')
+# # updater.bot.log_out()
+# dp = updater.dispatcher
+
+updater = Updater(token=TOKEN)
 dp = updater.dispatcher
 
 dp.add_handler(CommandHandler('start', start))
+dp.add_handler(CommandHandler('help', help))
 dp.add_handler(MessageHandler(Filters.entity('url'), url))
 dp.add_handler(CallbackQueryHandler(url_inline_button))
