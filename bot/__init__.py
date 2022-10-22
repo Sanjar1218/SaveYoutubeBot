@@ -1,12 +1,31 @@
-from bot import updater
+from telegram.ext import (
+    Updater, 
+    MessageHandler, 
+    CommandHandler,
+    CallbackQueryHandler,
+    Filters,
+    CallbackContext,
+)
+from telegram import (
+    Update, 
+    InlineKeyboardButton, 
+    InlineKeyboardMarkup,
+)
+from pytube import YouTube, Playlist
+import os
+from env import env
 
-<<<<<<< HEAD
-TOKEN = '5128554563:AAGXrWFZ8YKt0lSbFpr6X1xo4P14X-L5NjE'
+TOKEN = env.get("BOT_TOKEN")
 
 def start(update: Update, context: CallbackContext):
     """Sends description about bot
     """
-    update.message.reply_text('hi')
+    update.message.reply_text('''<b>Hi this bot helps you for downloading videos from <a href="https://www.youtube.com">YouTue</a>
+
+How to use: /help
+
+Made by @codeschooluz
+    </b>''', parse_mode="HTML")
 
 def url(update: Update, context: CallbackContext):
     """ Gets url and sends message about url
@@ -46,20 +65,24 @@ def url_inline_button(update: Update, context: CallbackContext):
     #deleting video from server
     os.remove('videos/video.mp4')
 
+def help(update: Update, context: CallbackContext):
+    update.message.reply_text('''
+<b>Send me any YouTube video link,
+Choose video quality
+And enjoy it 🥳.</b>
 
-# handlers here
-updater = Updater(TOKEN, base_url='https://savingmyvideo.herokuapp.com/bot')
-# updater.bot.log_out()
+<i>Connect with us: @SANJARBEK1718</i>
+    ''', parse_mode="HTML")
+
+# # handlers here
+# updater = Updater(TOKEN, base_url='http://127.0.0.1:8081/bot')
+# # updater.bot.log_out()
+# dp = updater.dispatcher
+
+updater = Updater(token=TOKEN)
 dp = updater.dispatcher
 
 dp.add_handler(CommandHandler('start', start))
+dp.add_handler(CommandHandler('help', help))
 dp.add_handler(MessageHandler(Filters.entity('url'), url))
 dp.add_handler(CallbackQueryHandler(url_inline_button))
-
-updater.start_polling()
-updater.idle()
-=======
-if __name__ == "__main__":
-    updater.start_polling()
-    updater.idle()
->>>>>>> 4f206ae3f989bb862892c01530f061adc0065c0d
