@@ -61,7 +61,7 @@ def url_inline_button(update: Update, context: CallbackContext):
 
 
 # handlers here
-updater = Updater(TOKEN, base_url='http://127.0.0.1:8081/bot')
+updater = Updater(TOKEN, base_url='https://savingmyvideo.herokuapp.com/bot')
 # updater.bot.log_out()
 dp = updater.dispatcher
 
